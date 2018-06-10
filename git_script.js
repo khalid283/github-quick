@@ -38,7 +38,7 @@ document.body.appendChild(elemDiv);
 
 
 var allgid = document.querySelectorAll("[data-gid]");
-
+var currentComment = 0;
 var allgidArray = Object.keys(allgid).map(function (key) { 
     return allgid[key]; 
 });
@@ -75,29 +75,54 @@ allgidArray.map((dataGid, key) => {
                
                 i++;
             }
+            dataObj.count = sortingCount(dataObj.data);
             //var alias = document.querySelectorAll(`[data-gid='${dataGid.dataset.gid}']`)[0].childNodes[1].childNodes[3].childNodes[3].childNodes[3].childNodes[3].childNodes[3].childNodes[6].childNodes[1].childNodes[1].getAttribute("alias");
-            
             reactArr.push(dataObj);
         }
     }
-    
-
 })
 
 
+function sortingCount(data){
+    var count = 0
+    data.map((dataC, key) => {
+        if(dataC.alias === '-1'){
+            count = count - Number(dataC.count);
+        }else{
+            count = count + Number(dataC.count)
+        }
+    })
+    return count;
+    console.log('ss', data);
+}
 
 
-
-
+reactArr.sort(function(a,b) {return (a.count < b.count) ? 1 : ((b.count < a.count) ? -1 : 0);} );
 console.log('all', reactArr);
 
+function goNext(){
+    if(currentComment < reactArr.length){
+        var div_to_scroll = document.querySelectorAll(`[data-gid='${reactArr[currentComment].key}']`)[0].
+        childNodes[1].childNodes[3].childNodes[3].id;
+        if(div_to_scroll){
+            document.getElementById(div_to_scroll).scrollIntoView();
+        }
+        console.log('div_to_scroll', div_to_scroll);
+        currentComment = Number(currentComment + 1);
+    }
+}
 
-document.getElementById("kh_next").addEventListener("click", function(){
-    var div_to_scroll = document.querySelectorAll(`[data-gid='${reactArr[0].key}']`)[0].
-                childNodes[1].childNodes[3].childNodes[3].id;
-                document.getElementById(div_to_scroll).scrollIntoView();
-    console.log('div_to_scroll', div_to_scroll);
-});
-document.getElementById("kh_prev").addEventListener("click", function(){
-    console.log('prev clicked')
-});
+function goPrev(){
+    if(currentComment > 0){
+        var div_to_scroll = document.querySelectorAll(`[data-gid='${reactArr[currentComment].key}']`)[0].
+        childNodes[1].childNodes[3].childNodes[3].id;
+        if(div_to_scroll){
+            document.getElementById(div_to_scroll).scrollIntoView();
+        }
+        console.log('div_to_scroll', div_to_scroll);
+        currentComment = Number(currentComment - 1);
+    } 
+}
+
+document.getElementById("kh_next").addEventListener("click", goNext);
+document.getElementById("kh_prev").addEventListener("click", goPrev);
