@@ -1,4 +1,3 @@
-console.log('this is git')
 var elemDiv = document.createElement('div');
 elemDiv.id = 'khaid-some';
 elemDiv.style.cssText = 'position:absolute;width:100%;height:100%;opacity:0.3;z-index:100;background:#000;';
@@ -93,7 +92,6 @@ function sortingCount(data){
         }
     })
     return count;
-    console.log('ss', data);
 }
 
 
@@ -102,25 +100,15 @@ console.log('all', reactArr);
 
 function goNext(){
     if(currentComment < reactArr.length){
-        var div_to_scroll = document.querySelectorAll(`[data-gid='${reactArr[currentComment].key}']`)[0].
-        childNodes[1].childNodes[3].childNodes[3].id;
-        if(div_to_scroll){
-            document.getElementById(div_to_scroll).scrollIntoView();
-        }
-        console.log('div_to_scroll', div_to_scroll);
-        currentComment = Number(currentComment + 1);
+        document.querySelectorAll(`[data-gid='${reactArr[currentComment].key}']`)[0].scrollIntoView();
+        currentComment = currentComment != reactArr.length - 1 ? Number(currentComment + 1) : reactArr.length - 1;
     }
 }
 
 function goPrev(){
     if(currentComment > 0){
-        var div_to_scroll = document.querySelectorAll(`[data-gid='${reactArr[currentComment].key}']`)[0].
-        childNodes[1].childNodes[3].childNodes[3].id;
-        if(div_to_scroll){
-            document.getElementById(div_to_scroll).scrollIntoView();
-        }
-        console.log('div_to_scroll', div_to_scroll);
-        currentComment = Number(currentComment - 1);
+        document.querySelectorAll(`[data-gid='${reactArr[currentComment].key}']`)[0].scrollIntoView();
+        currentComment = currentComment != 0 ? Number(currentComment - 1) : 0;
     } 
 }
 
